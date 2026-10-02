@@ -166,7 +166,7 @@ export default function App() {
   if (!authReady) return <div className="p-8 text-center text-slate-500">正在載入後端登入狀態…</div>;
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col font-sans selection:bg-rose-100 selection:text-rose-900">
+    <div className="app-bg min-h-screen text-slate-900 flex flex-col font-sans selection:bg-rose-100 selection:text-rose-900">
       <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-xl focus:bg-white focus:px-4 focus:py-3 focus:font-bold focus:text-blue-800 focus:shadow-lg">跳至主要內容</a>
       {/* Top Navigation */}
       <Navbar

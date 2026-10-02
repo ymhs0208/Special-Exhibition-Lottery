@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Image as ImageIcon, Upload, Link, X, RotateCcw, Check, Sparkles, AlertCircle } from 'lucide-react';
 import { useModalFocus } from '../lib/useModalFocus';
+import { BrandTitle } from './BrandTitle';
 
 interface LogoUploadModalProps {
   isOpen: boolean;
@@ -158,14 +159,7 @@ export const LogoUploadModal: React.FC<LogoUploadModalProps> = ({
                 </span>
               </div>
             )}
-            <div className="min-w-0">
-              <div className="text-xs font-semibold text-slate-500 uppercase truncate">
-                國立臺中科技大學 / 資訊與流通學院
-              </div>
-              <div className="text-sm font-black text-slate-900 truncate mt-0.5">
-                專題成果展 <span className="text-rose-700 font-semibold text-xs">報告抽籤序位系統</span>
-              </div>
-            </div>
+            <BrandTitle compact />
           </div>
         </div>
 

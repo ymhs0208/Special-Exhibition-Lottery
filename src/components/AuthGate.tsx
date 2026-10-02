@@ -50,7 +50,7 @@ export const AuthGate: React.FC<AuthGateProps> = ({
   return (
     <div className="max-w-md mx-auto px-4 py-8 sm:py-12 space-y-6">
       {/* Main Login Card */}
-      <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm space-y-6">
+      <div className="card-soft fade-up bg-white rounded-3xl p-6 sm:p-8 space-y-6">
         {/* Card Header with official logo */}
         <div className="text-center space-y-3 pb-4 border-b border-slate-100">
           <div className="flex justify-center">

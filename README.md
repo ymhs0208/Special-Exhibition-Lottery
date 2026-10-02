@@ -92,6 +92,18 @@ npm run migrate:local -- /absolute/path/server-db.json
 
 移轉工具會保留專題與領域設定、移除舊明文密碼，並拒絕覆蓋已使用的資料庫。舊瀏覽器 localStorage 快取不會自動上傳。
 
+## 介面與動畫更新
+
+純前端視覺調整，不影響 API、資料庫、抽籤演算法與權限；抽籤結果仍完全由後端產生並儲存。
+
+- **撲克牌洗牌動畫**：台上抽籤頁的抽籤動畫改為撲克牌風格。14 張牌背（藍底、白邊、金色黑桃徽章）分成兩半交錯疊合，只洗 2 次（約 2.4 秒）；之後牌疊輕微上下浮動，等待後端完成。動畫最少 3.6 秒（`MIN_DRAW_MS`），後端較慢時持續等待而不會重複洗牌。結束後顯示原本的完成畫面、分組看板與彩帶，結果套用時機不變。洗牌牌面僅為展示，不代表抽籤結果。
+  - 只動畫 `transform` 與 `opacity`，牌數固定 14 張，由 GPU 處理；開啟「減少動態效果」的裝置不播放動畫。
+  - 速度與次數可調整：[StageLottery.tsx](src/components/StageLottery.tsx) 的 `MIN_DRAW_MS`，以及 [StageLottery.css](src/components/StageLottery.css) 中 `poker-riffle` 的秒數與次數。
+- **頁首品牌標題**：新增共用元件 [BrandTitle.tsx](src/components/BrandTitle.tsx)，由頁首（學生查榜、台上抽籤、管理後台共用）與 Logo 上傳視窗預覽共用。「專題成果展」放大加粗，「報告抽籤系統」改為淡藍膠囊標籤，分隔線改為藍到玫紅漸層，與頁首頂端色條一致。
+- **現代化視覺**：背景柔光漸層、頁首大卡片漸層與點陣紋理、柔和陰影卡片、主要按鈕漸層與按壓回饋、學生查榜結果的漸層大數字，以及一次性 0.4 秒淡入。樣式集中於 [index.css](src/index.css)（`app-bg`、`hero-surface`、`card-soft`、`btn-grad`、`text-grad-*`、`fade-up`）。
+- **效能考量**：全部為靜態 CSS 漸層，不新增套件、不新增 JavaScript、不載入網路字型。同時移除頁首的 `backdrop-blur-xl`（捲動時每幀重新模糊），以及學生頁、抽籤頁共 4 顆大面積 `blur-2xl／blur-3xl` 裝飾光暈，改以漸層取代。打包後 CSS 約 65 KB（gzip 約 12 KB）。
+- **管理後台**：僅套用全站背景，內部版面未更動；登入頁（AuthGate）保留依角色區分的紅／黑按鈕。
+
 ## 驗證與部署
 
 ```sh

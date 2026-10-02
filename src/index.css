@@ -17,6 +17,77 @@
   #main-content:focus { outline: none; }
 }
 
+/*
+ * Modern look, kept cheap on purpose: static gradients only (no blur filters,
+ * no backdrop-filter on scrolling surfaces, no web fonts, no JS). Motion is
+ * limited to one short opacity/transform entrance and transform-only hovers.
+ */
+@layer components {
+  .app-bg {
+    background:
+      radial-gradient(56rem 26rem at 88% -6rem, rgba(191, 219, 254, 0.55), transparent 70%),
+      radial-gradient(38rem 22rem at -6% 8rem, rgba(254, 243, 199, 0.5), transparent 70%),
+      #f8fafc;
+  }
+
+  .hero-surface {
+    position: relative;
+    overflow: hidden;
+    background:
+      radial-gradient(22rem 14rem at 100% 0, rgba(147, 197, 253, 0.5), transparent 70%),
+      radial-gradient(14rem 9rem at 72% 110%, rgba(253, 230, 138, 0.45), transparent 70%),
+      linear-gradient(135deg, #ffffff, #f4f8ff);
+  }
+
+  .hero-surface::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 45%;
+    background-image: radial-gradient(rgba(37, 99, 235, 0.16) 1px, transparent 1.2px);
+    background-size: 16px 16px;
+    opacity: 0.55;
+    pointer-events: none;
+  }
+
+  .hero-surface > * { position: relative; z-index: 1; }
+
+  .card-soft {
+    border: 1px solid rgb(226 232 240 / 0.9);
+    box-shadow: 0 1px 2px rgb(15 23 42 / 0.04), 0 8px 24px -12px rgb(30 64 175 / 0.14);
+  }
+
+  .btn-grad {
+    background-image: linear-gradient(135deg, #1d4ed8, #2563eb 55%, #3b82f6);
+    box-shadow: 0 6px 16px -6px rgb(37 99 235 / 0.55), inset 0 1px 0 rgb(255 255 255 / 0.18);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .btn-grad:not(:disabled):hover { transform: translateY(-1px); box-shadow: 0 10px 20px -8px rgb(37 99 235 / 0.6), inset 0 1px 0 rgb(255 255 255 / 0.18); }
+  .btn-grad:not(:disabled):active { transform: translateY(0) scale(0.99); }
+
+  .text-grad-blue {
+    background-image: linear-gradient(135deg, #1e3a8a, #2563eb);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .text-grad-amber {
+    background-image: linear-gradient(135deg, #78350f, #d97706);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .fade-up { animation: fade-up 0.4s cubic-bezier(0.2, 0.7, 0.2, 1) both; animation-delay: var(--d, 0ms); }
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translate3d(0, 10px, 0); }
+  to { opacity: 1; transform: none; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     scroll-behavior: auto !important;

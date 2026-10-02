@@ -6,8 +6,6 @@ import { FloatingNotice } from './FloatingNotice';
 import confetti from 'canvas-confetti';
 import './StageLottery.css';
 import {
-  Dices,
-  Sparkles,
   RotateCcw,
   Maximize2,
   Minimize2,
@@ -18,7 +16,6 @@ import {
   X,
   Users,
   ShieldCheck,
-  Layers,
   ArrowRight,
   Search,
   Table,
@@ -32,6 +29,26 @@ interface StageLotteryProps {
   domainList: string[];
   domainConfigs: DomainConfig[];
 }
+
+const MIN_DRAW_MS = 3600; // two riffles, then the deck idles until the backend answers
+const DECK_SIZE = 14;
+
+const PokerShuffle: React.FC = () => (
+  <div className="poker-scene" aria-hidden="true">
+    <div className="poker-table-glow" />
+    <div className="poker-deck">
+      {Array.from({ length: DECK_SIZE }, (_, i) => (
+        <div
+          key={i}
+          className="poker-card poker-card--deck"
+          style={{ '--i': i, '--side': i % 2 ? 1 : -1, '--z-after': DECK_SIZE - i } as React.CSSProperties}
+        >
+          <div className="poker-card-back"><span>♠</span></div>
+        </div>
+      ))}
+    </div>
+  </div>
+);
 
 export const StageLottery: React.FC<StageLotteryProps> = ({
   projects,
@@ -166,7 +183,7 @@ export const StageLottery: React.FC<StageLotteryProps> = ({
           field: selectedField,
           version: dataVersion,
         }),
-        new Promise<void>((resolve) => setTimeout(resolve, 3600)),
+        new Promise<void>((resolve) => setTimeout(resolve, MIN_DRAW_MS)),
       ]);
       if (!Array.isArray(backendResult.projects)) throw new Error('抽籤回應格式不正確。');
       setBatchDrawSummary(
@@ -227,9 +244,7 @@ export const StageLottery: React.FC<StageLotteryProps> = ({
       }`}
     >
       {/* Presentation control header */}
-      <section className="relative overflow-hidden rounded-[1.75rem] border border-blue-100 bg-white text-slate-900 shadow-sm">
-        <div className="absolute -right-20 -top-28 h-72 w-72 rounded-full bg-blue-100/80 blur-3xl pointer-events-none" />
-        <div className="absolute -left-20 bottom-0 h-52 w-52 rounded-full bg-amber-100/70 blur-3xl pointer-events-none" />
+      <section className="hero-surface card-soft rounded-[1.75rem] text-slate-900">
         <div className="relative p-5 sm:p-7 lg:p-9 space-y-6">
           <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-5">
             <div className="flex items-center gap-4 min-w-0">
@@ -279,7 +294,7 @@ export const StageLottery: React.FC<StageLotteryProps> = ({
       </section>
 
       <div role="group" className="grid grid-cols-3 gap-2 sm:gap-4" aria-label="抽籤數量統計">
-        <div className="rounded-2xl border border-slate-200 bg-white p-3 sm:p-5 shadow-sm"><div className="text-[11px] sm:text-sm font-semibold text-slate-500">專題總數</div><div className="mt-1 text-2xl sm:text-4xl font-black text-slate-900 tabular-nums">{currentPool.length}<span className="ml-1 text-xs sm:text-base font-semibold text-slate-500">件</span></div></div>
+        <div className="card-soft rounded-2xl bg-white p-3 sm:p-5"><div className="text-[11px] sm:text-sm font-semibold text-slate-500">專題總數</div><div className="mt-1 text-2xl sm:text-4xl font-black text-slate-900 tabular-nums">{currentPool.length}<span className="ml-1 text-xs sm:text-base font-semibold text-slate-500">件</span></div></div>
         <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-3 sm:p-5 shadow-sm"><div className="text-[11px] sm:text-sm font-semibold text-emerald-700">已完成</div><div className="mt-1 text-2xl sm:text-4xl font-black text-emerald-800 tabular-nums">{drawnPool.length}<span className="ml-1 text-xs sm:text-base font-semibold text-emerald-700">件</span></div></div>
         <div className="rounded-2xl border border-amber-200 bg-amber-50 p-3 sm:p-5 shadow-sm"><div className="text-[11px] sm:text-sm font-semibold text-amber-700">尚待抽籤</div><div className="mt-1 text-2xl sm:text-4xl font-black text-amber-900 tabular-nums">{undrawnPool.length}<span className="ml-1 text-xs sm:text-base font-semibold text-amber-700">件</span></div></div>
       </div>
@@ -292,29 +307,12 @@ export const StageLottery: React.FC<StageLotteryProps> = ({
           {isAnimating ? (
             <div className="w-full py-3 sm:py-5">
               <p className="text-sm font-bold tracking-wide text-blue-700">{selectedField === 'ALL' ? '全校各領域' : selectedField} · 現場抽籤中</p>
-              <div className="stage-draw-scene" aria-hidden="true">
-                <div className="stage-draw-halo" />
-                <div className="stage-draw-card stage-draw-card--one">
-                  <span className="stage-draw-card-icon"><Layers className="h-5 w-5" /></span>
-                  <span className="stage-draw-card-label">專題展抽籤</span>
-                  <span className="stage-draw-card-question">？</span>
-                </div>
-                <div className="stage-draw-card stage-draw-card--two">
-                  <span className="stage-draw-card-icon"><Dices className="h-5 w-5" /></span>
-                  <span className="stage-draw-card-label">專題展抽籤</span>
-                  <span className="stage-draw-card-question">？</span>
-                </div>
-                <div className="stage-draw-card stage-draw-card--three">
-                  <span className="stage-draw-card-icon"><Sparkles className="h-5 w-5" /></span>
-                  <span className="stage-draw-card-label">專題展抽籤</span>
-                  <span className="stage-draw-card-question">？</span>
-                </div>
-              </div>
+              <PokerShuffle />
               <div>
                 <h2 className="text-2xl font-black text-slate-900 sm:text-4xl">正在洗牌抽選</h2>
                 <p className="mt-2 text-sm text-slate-600 sm:text-base">場次與順位將在抽籤完成後一同揭曉。</p>
               </div>
-              <p className="mt-5 text-xs text-slate-500">卡片為展示動畫，正式結果由後端產生並儲存。</p>
+              <p className="mt-5 text-xs text-slate-500">洗牌為展示動畫，正式結果由後端產生並儲存。</p>
             </div>
           ) : batchDrawSummary ? (
             /* ========================================================
@@ -446,7 +444,7 @@ export const StageLottery: React.FC<StageLotteryProps> = ({
           <button
             onClick={handleOpenBatchModal}
             disabled={isAnimating || undrawnPool.length === 0}
-            className="w-full sm:w-auto min-w-[260px] sm:min-w-[340px] px-8 py-4 rounded-2xl bg-blue-700 hover:bg-blue-800 text-white font-extrabold text-base sm:text-lg shadow-lg shadow-blue-500/20 transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-40 disabled:hover:scale-100 disabled:shadow-none flex items-center justify-center gap-2.5 cursor-pointer"
+            className="btn-grad w-full sm:w-auto min-w-[260px] sm:min-w-[340px] px-8 py-4 rounded-2xl text-white font-extrabold text-base sm:text-lg disabled:opacity-40 flex items-center justify-center gap-2.5 cursor-pointer"
           >
             <Zap className="w-5 h-5 fill-current shrink-0 animate-pulse" />
             <span>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { AuthSession } from '../lib/auth';
 import { UserRound, LogOut, LoaderCircle } from 'lucide-react';
+import { BrandTitle } from './BrandTitle';
 
 interface NavbarProps {
   authSession?: AuthSession | null;
@@ -20,7 +21,7 @@ export const Navbar: React.FC<NavbarProps> = ({ authSession, onLogout }) => {
   const roleLabel = isAdmin ? '大會系統管理員' : '台上抽籤人員';
 
   return (
-    <header className="sticky top-0 z-40 border-b border-slate-200 bg-white/95 shadow-[0_3px_16px_rgba(15,23,42,0.04)] backdrop-blur-xl">
+    <header className="sticky top-0 z-40 border-b border-slate-200 bg-white shadow-[0_4px_20px_-8px_rgba(30,64,175,0.18)]">
       <div className="h-1 bg-gradient-to-r from-blue-700 via-sky-500 to-rose-500" aria-hidden="true" />
       <div className="mx-auto flex min-h-[4.25rem] max-w-7xl items-center justify-between gap-3 px-4 sm:min-h-[4.75rem] sm:px-6 lg:px-8">
         <a href="/" className="flex min-w-0 items-center gap-3 rounded-lg sm:gap-4 focus-visible:outline-2 focus-visible:outline-blue-600" aria-label="返回學生查榜首頁">
@@ -32,14 +33,8 @@ export const Navbar: React.FC<NavbarProps> = ({ authSession, onLogout }) => {
               loading="eager"
             />
           </div>
-          <div className="hidden h-8 w-px bg-slate-200 sm:block" aria-hidden="true" />
-          <div className="min-w-0">
-            <p className="truncate text-[10px] font-bold tracking-wide text-blue-700 sm:text-xs">國立臺中科技大學 · 資訊與流通學院</p>
-            <div className="mt-0.5 flex min-w-0 items-baseline gap-2">
-              <p className="shrink-0 text-base font-black tracking-tight text-slate-900 sm:text-xl">專題成果展</p>
-              <span className="truncate text-[11px] font-semibold text-slate-500 sm:text-sm">報告抽籤系統</span>
-            </div>
-          </div>
+          <div className="hidden h-9 w-0.5 rounded-full bg-gradient-to-b from-blue-600 to-rose-500 sm:block" aria-hidden="true" />
+          <BrandTitle />
         </a>
 
         {authSession && onLogout && (

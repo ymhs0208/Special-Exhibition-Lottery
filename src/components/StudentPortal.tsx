@@ -101,12 +101,10 @@ export const StudentPortal: React.FC = () => {
   };
 
   return (
-    <div className="min-h-[calc(100vh-5rem)] bg-gradient-to-b from-blue-50/70 via-white to-slate-50">
+    <div className="min-h-[calc(100vh-5rem)]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-10 space-y-6 sm:space-y-8">
-        <header className="relative overflow-hidden rounded-[2rem] border border-blue-100 bg-white px-6 py-7 sm:px-9 sm:py-9 shadow-sm">
-          <div className="absolute -right-12 -top-20 h-56 w-56 rounded-full bg-blue-100/70 blur-2xl pointer-events-none" />
-          <div className="absolute right-36 bottom-0 h-28 w-28 rounded-full bg-amber-100/70 blur-2xl pointer-events-none" />
-          <div className="relative flex items-start gap-4 sm:gap-6">
+        <header className="hero-surface card-soft fade-up rounded-[2rem] px-6 py-7 sm:px-9 sm:py-9">
+          <div className="flex items-start gap-4 sm:gap-6">
             <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-slate-100 bg-white p-1.5 shadow-sm sm:h-16 sm:w-16 sm:rounded-2xl sm:p-2">
               <img src="https://cidsexhibition.nutc.edu.tw/images/logo.png" alt="國立臺中科技大學 資訊與流通學院" className="max-h-full max-w-full object-contain" />
             </div>
@@ -120,7 +118,7 @@ export const StudentPortal: React.FC = () => {
 
       {!myProject ? (
         <div className="grid gap-5 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-stretch">
-          <section className="order-2 rounded-[1.75rem] border border-blue-100 bg-blue-50/80 p-6 sm:p-8 lg:order-1">
+          <section className="fade-up order-2 rounded-[1.75rem] border border-blue-100 bg-gradient-to-br from-blue-50 via-blue-50/70 to-white p-6 sm:p-8 lg:order-1" style={{ ["--d" as string]: "80ms" }}>
             <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-blue-700 shadow-sm"><UserCheck className="h-6 w-6" /></div>
             <h2 className="mt-6 text-xl sm:text-2xl font-black text-slate-900">查詢您的報告資訊</h2>
             <p className="mt-3 text-sm leading-7 text-slate-600">使用組長學號與大會提供的密碼登入，即可確認專題的報告場次與上台順位。</p>
@@ -130,7 +128,7 @@ export const StudentPortal: React.FC = () => {
             </div>
           </section>
 
-          <section className="order-1 rounded-[1.75rem] border border-slate-200 bg-white p-6 sm:p-8 shadow-sm lg:order-2" aria-labelledby="student-login-title">
+          <section className="card-soft fade-up order-1 rounded-[1.75rem] bg-white p-6 sm:p-8 lg:order-2" style={{ ["--d" as string]: "140ms" }} aria-labelledby="student-login-title">
             <div className="mb-6 border-b border-slate-100 pb-5">
               <h2 id="student-login-title" className="text-xl sm:text-2xl font-black text-slate-900">組長登入</h2>
               <p className="mt-1 text-sm text-slate-500">請填寫以下資料，查詢您的專題報告順序。</p>
@@ -153,7 +151,7 @@ export const StudentPortal: React.FC = () => {
                 <p className="mt-2 text-xs leading-relaxed text-slate-500">尚未取得密碼或忘記密碼，請洽大會管理員。</p>
               </div>
               {errorMessage && <div role="alert" className="flex items-start gap-2.5 rounded-xl border border-rose-200 bg-rose-50 p-3.5 text-sm text-rose-700"><AlertCircle className="mt-0.5 h-4 w-4 shrink-0" /><span>{errorMessage}</span></div>}
-              <button type="submit" disabled={isLoading} className="flex w-full items-center justify-center gap-2 rounded-xl bg-blue-700 px-5 py-3.5 text-base font-bold text-white shadow-sm transition hover:bg-blue-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700 disabled:cursor-wait disabled:opacity-60">
+              <button type="submit" disabled={isLoading} className="btn-grad flex w-full items-center justify-center gap-2 rounded-xl px-5 py-3.5 text-base font-bold text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700 disabled:cursor-wait disabled:opacity-60">
                 {loadingAction === 'login' ? <LoaderCircle className="h-5 w-5 animate-spin motion-reduce:animate-none" aria-hidden="true" /> : <LogIn className="h-5 w-5" />}
                 <span>{loadingAction === 'login' ? '查詢中…' : '登入並查詢順序'}</span>
                 {loadingAction !== 'login' && <ChevronRight className="h-5 w-5" />}
@@ -163,9 +161,9 @@ export const StudentPortal: React.FC = () => {
         </div>
       ) : (
         /* Logged In View */
-        <div className="space-y-5 sm:space-y-6">
+        <div className="fade-up space-y-5 sm:space-y-6">
           {/* Top Status Bar */}
-          <div className="flex flex-wrap items-center justify-between gap-4 rounded-[1.5rem] border border-slate-200 bg-white p-4 sm:p-5 shadow-sm">
+          <div className="flex flex-wrap items-center justify-between gap-4 card-soft rounded-[1.5rem] bg-white p-4 sm:p-5">
             <div className="flex items-center gap-2.5 sm:gap-3">
               <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-blue-100 bg-blue-50 text-blue-700">
                 <User className="h-5 w-5" />
@@ -200,7 +198,7 @@ export const StudentPortal: React.FC = () => {
           </div>
 
           {/* Main Showcase Card */}
-          <div className="rounded-[1.75rem] border border-slate-200 bg-white p-5 sm:p-8 shadow-sm">
+          <div className="card-soft rounded-[1.75rem] bg-white p-5 sm:p-8">
             {myProject.draw_order ? (
               <div className="space-y-6">
                 {/* Project Header Info */}
@@ -224,19 +222,19 @@ export const StudentPortal: React.FC = () => {
                 </div>
 
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2" aria-label="抽籤結果">
-                  <section className="flex min-h-44 flex-col justify-between gap-5 rounded-2xl border border-blue-200 bg-blue-50 p-6 sm:p-8">
+                  <section className="flex min-h-44 flex-col justify-between gap-5 rounded-2xl border border-blue-200 bg-gradient-to-br from-blue-50 to-white p-6 sm:p-8">
                     <div className="flex items-center gap-2 text-sm font-bold text-blue-800">
                       <Users className="h-5 w-5" />
                       分組場次
                     </div>
-                    <div className="text-5xl sm:text-6xl font-black tracking-tight text-blue-950">第 {myProject.assigned_group ?? '—'} 組</div>
+                    <div className="text-5xl sm:text-6xl font-black tracking-tight text-grad-blue">第 {myProject.assigned_group ?? '—'} 組</div>
                   </section>
-                  <section className="flex min-h-44 flex-col justify-between gap-5 rounded-2xl border border-amber-200 bg-amber-50 p-6 sm:p-8">
+                  <section className="flex min-h-44 flex-col justify-between gap-5 rounded-2xl border border-amber-200 bg-gradient-to-br from-amber-50 to-white p-6 sm:p-8">
                     <div className="flex items-center gap-2 text-sm font-bold text-amber-800">
                       <Award className="h-5 w-5" />
                       報告出場順序
                     </div>
-                    <div className="text-5xl sm:text-6xl font-black tracking-tight text-amber-950">第 {myProject.draw_order} 位</div>
+                    <div className="text-5xl sm:text-6xl font-black tracking-tight text-grad-amber">第 {myProject.draw_order} 位</div>
                   </section>
                 </div>
 
@@ -284,7 +282,7 @@ export const StudentPortal: React.FC = () => {
           </div>
 
           {/* Presentation Notes */}
-          <aside className="rounded-[1.5rem] border border-slate-200 bg-white p-5 sm:p-6 text-sm text-slate-600 shadow-sm">
+          <aside className="card-soft rounded-[1.5rem] bg-white p-5 sm:p-6 text-sm text-slate-600">
             <h3 className="flex items-center gap-2 font-bold text-slate-900">
               <FileText className="h-5 w-5 text-blue-700" />
               報告注意事項
